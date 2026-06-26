@@ -67,6 +67,17 @@ Guardrails raise structured validation failures and are exposed as HTTP `400` re
 - Uses retry and timeout settings to reduce transient API failures.
 - Realistic deployment should monitor Gemini quota and cost usage carefully, especially with free-tier limits.
 
+## MODELS
+
+- `gemini-2.5-flash`
+  - Runs on Google Gemini cloud via the `langchain-google-genai` adapter.
+  - Chosen for its structured-output capabilities, strong reasoning over transaction data, and support for deterministic prompt guidance.
+  - The model is used exclusively in the cloud; no local model is required.
+
+## Sample output
+
+See `QueueStorm_Preli_Sample_Cases.json` for a public sample case, the request payload, and expected JSON output from the service.
+
 ## Assumptions
 
 - Input includes complaint, transaction history, channel, language, and optional metadata.

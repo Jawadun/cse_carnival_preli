@@ -1,0 +1,55 @@
+[
+  {
+    "request": {
+      "ticket_id": "TKT-008",
+      "complaint": "I sent 1000 to my brother yesterday but he says he didn't get it. Please check.",
+      "language": "en",
+      "channel": "in_app_chat",
+      "user_type": "customer",
+      "transaction_history": [
+        {
+          "transaction_id": "TXN-9801",
+          "timestamp": "2026-04-13T11:20:00Z",
+          "type": "transfer",
+          "amount": 1000,
+          "counterparty": "+8801712001122",
+          "status": "completed"
+        },
+        {
+          "transaction_id": "TXN-9802",
+          "timestamp": "2026-04-13T19:45:00Z",
+          "type": "transfer",
+          "amount": 1000,
+          "counterparty": "+8801812334455",
+          "status": "completed"
+        },
+        {
+          "transaction_id": "TXN-9803",
+          "timestamp": "2026-04-13T20:10:00Z",
+          "type": "transfer",
+          "amount": 1000,
+          "counterparty": "+8801712001122",
+          "status": "failed"
+        }
+      ]
+    },
+    "expected_response": {
+      "ticket_id": "TKT-008",
+      "relevant_transaction_id": null,
+      "evidence_verdict": "insufficient_data",
+      "case_type": "other",
+      "severity": "low",
+      "department": "customer_support",
+      "agent_summary": "The complaint mentions a transfer to a brother but lacks a clearly identifiable transaction detail. No specific transaction can be confirmed from the complaint alone.",
+      "recommended_next_action": "Ask the customer to provide the exact transaction ID, timestamp, or counterparty details for the disputed transfer. Do not guess the transaction.",
+      "customer_reply": "Thank you for contacting us. To investigate this transfer, please share the exact transaction ID, amount, and the date/time of the transaction. Do not share your PIN or OTP.",
+      "human_review_required": false,
+      "confidence": 0.60,
+      "reason_codes": [
+        "vague_complaint",
+        "needs_clarification"
+      ]
+    },
+    "rationale": "Because the complaint references a generic transfer to a brother without unique identifiers, the system should return insufficient_data and request clarification instead of picking a likely transaction."
+  }
+]
