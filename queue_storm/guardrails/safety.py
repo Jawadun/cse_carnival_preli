@@ -12,7 +12,7 @@ raise an exception or regenerate the response.
 
 from typing import Dict
 
-from models.response import TicketResponse
+from queue_storm.models.response import TicketResponse
 
 
 # ==========================================================
@@ -80,49 +80,42 @@ REFUND_DEPARTMENTS = {
 # ==========================================================
 
 FORBIDDEN_SECURITY = [
-
     "otp",
-
     "pin",
-
     "password",
-
     "full card",
-
     "card number",
-
     "cvv",
+]
 
+SAFE_SECURITY_WARNINGS = [
+    "do not share",
+    "please do not share",
+    "never share",
+    "do not give",
+    "never give",
+    "do not disclose",
+    "please do not disclose",
+    "don't share",
+    "do not provide",
+    "please do not provide",
 ]
 
 FORBIDDEN_PROMISES = [
-
     "we will refund",
-
     "refund has been approved",
-
     "money has been refunded",
-
     "we reversed",
-
     "account unblocked",
-
     "we recovered",
-
 ]
 
 SUSPICIOUS_CONTACT = [
-
     "telegram",
-
     "whatsapp",
-
     "facebook inbox",
-
     "gmail.com",
-
     "contact this number",
-
 ]
 
 
@@ -151,19 +144,21 @@ def contains_any(text: str, words: list[str]) -> bool:
 
 def validate_customer_reply(reply: str):
 
-    if contains_any(reply, FORBIDDEN_SECURITY):
+    normalized = reply.lower()
 
-        raise GuardrailViolation(
-            "Customer reply requests sensitive credentials."
-        )
+    if contains_any(normalized, FORBIDDEN_SECURITY):
+        if not contains_any(normalized, SAFE_SECURITY_WARNINGS):
+            raise GuardrailViolation(
+                "Customer reply requests sensitive credentials."
+            )
 
-    if contains_any(reply, FORBIDDEN_PROMISES):
+    if contains_any(normalized, FORBIDDEN_PROMISES):
 
         raise GuardrailViolation(
             "Customer reply promises refund/reversal."
         )
 
-    if contains_any(reply, SUSPICIOUS_CONTACT):
+    if contains_any(normalized, SUSPICIOUS_CONTACT):
 
         raise GuardrailViolation(
             "Customer reply directs user to unofficial support."

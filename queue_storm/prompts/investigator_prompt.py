@@ -57,6 +57,8 @@ Step 4
 
 Determine evidence_verdict
 
+If the complaint does not include a clearly identifiable transaction detail, such as a transaction ID, exact amount, exact date/time, or a specific counterparty, do not infer the transaction from vague language like "my brother", "someone", or "yesterday". When the complaint is ambiguous and multiple transaction candidates exist, treat it as insufficient_data rather than guessing.
+
 consistent
 
 Evidence supports complaint.
@@ -205,6 +207,11 @@ prompt = ChatPromptTemplate.from_messages(
         (
             "human",
             """
+Ticket ID
+
+{ticket_id}
+
+
 Complaint
 
 {complaint}
@@ -213,6 +220,11 @@ Complaint
 Transaction History
 
 {transaction_history}
+
+
+Metadata
+
+{metadata}
 
 
 Language
